@@ -2,8 +2,11 @@
    Traffic Light Seguence
    Project 5 - Traffic Lights
    Teresa Miller
+
 */
+
 //LED pin assignments
+
 #define westButton 3
 #define eastButton 13
 #define westRed 2
@@ -16,15 +19,14 @@
 #define westPedGreen 5
 #define eastPedRed 7
 #define eastPedGreen 6
-
 #define yellowBlinkTime 1000 //yellow blink rate
 
 boolean trafficWest = true; // west = true, east = false
 int flowTime = 10000; // time traffic flows
 int changeDelay = 2000; // delay between light changes
 
-
 void setup() {
+
   // setup digital I/O pins
   pinMode(westButton, INPUT);
   pinMode(eastButton, INPUT);
@@ -38,7 +40,7 @@ void setup() {
   pinMode(westPedGreen, OUTPUT);
   pinMode(eastPedRed, OUTPUT);
   pinMode(eastPedGreen, OUTPUT);
-  
+
   // set initial state for lights
   digitalWrite(westRed,  LOW);
   digitalWrite(westYellow,  LOW);
@@ -52,7 +54,21 @@ void setup() {
   digitalWrite(eastPedGreen, HIGH);
 }
 
+void blinkYellowLight(int yellowLED)
+{
+  for ( int i = 0; i < 5; i++ )
+  {
+    //yellow light blink pattern
+    digitalWrite(yellowLED, LOW);
+    delay(yellowBlinkTime);
+    digitalWrite(yellowLED, HIGH);
+    delay(yellowBlinkTime);
+  }
+}
+
+
 void loop() {
+
   if ( digitalRead(westButton) == HIGH )
   {
     if ( trafficWest != true )
@@ -66,15 +82,19 @@ void loop() {
       digitalWrite(eastYellow, LOW);
       digitalWrite(eastRed, HIGH);
       delay(changeDelay);
-      for ( int i = 0; i < 5; i++ )
-      {
-        //yellow light blink pattern
-        digitalWrite(westYellow, LOW);
-        delay(yellowBlinkTime);
-        digitalWrite(westYellow, HIGH);
-        delay(yellowBlinkTime);
 
-      }
+      blinkYellowLight(westYellow);
+      /*
+        for ( int i = 0; i < 5; i++ )
+        {
+         //yellow light blink pattern
+         digitalWrite(westYellow, LOW);
+         delay(yellowBlinkTime);
+         digitalWrite(westYellow, HIGH);
+         delay(yellowBlinkTime);
+        }
+      */
+
       digitalWrite(westYellow, LOW);
       digitalWrite(westRed, LOW); // change lights from red to green
       digitalWrite(westGreen, HIGH);
@@ -98,19 +118,24 @@ void loop() {
       digitalWrite(westYellow, LOW);
       digitalWrite(westRed, HIGH);
       delay(changeDelay);
-      for ( int i = 0 ; i < 5 ; i++ ) // blink yellow light
-      {
+
+      blinkYellowLight(eastYellow);
+      /*
+        {
+        for ( int i = 0 ; i < 5 ; i++ ) // blink yellow light
         //yellow light blink pattern
         digitalWrite(eastYellow, LOW);
         delay(yellowBlinkTime);
         digitalWrite(eastYellow, HIGH);
         delay(yellowBlinkTime);
-      }
+        }
+      */
+
       digitalWrite(eastYellow, LOW);
       digitalWrite(eastRed, LOW); // change lights from red to green
       digitalWrite(eastGreen, HIGH);
       digitalWrite(westPedGreen, HIGH);
-      digitalWrite(westPedRed, LOW); 
+      digitalWrite(westPedRed, LOW);
       digitalWrite(eastPedGreen, LOW);
       digitalWrite(eastPedRed, HIGH);
     }
