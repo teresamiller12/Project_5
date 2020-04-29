@@ -69,7 +69,6 @@ void blinkYellowLight(int yellowLED)
 void greenToYellow(int green, int yellow)
 {
   digitalWrite(green, LOW); //change east - facing lights from green to yellow to red
-
   digitalWrite(yellow, HIGH);
   delay(changeDelay);
 }
@@ -80,6 +79,24 @@ void yellowToRed(int yellow, int red)
   digitalWrite(red, HIGH);
   delay(changeDelay);
 }
+
+void greenLightOn(int yellow, int red, int green)
+{
+  digitalWrite(westYellow, LOW);
+  digitalWrite(westRed, LOW); // change lights from red to green
+  digitalWrite(westGreen, HIGH);
+}
+void pedLightsRed (int green, int red)
+{
+  digitalWrite(westPedGreen, LOW);
+  digitalWrite(westPedRed, HIGH); // change lights from red to green
+}
+void pedLightsGreen (int green, int red)
+{
+  digitalWrite(eastPedGreen, HIGH);
+  digitalWrite(eastPedRed, LOW);
+}
+
 void loop() {
 
   if ( digitalRead(westButton) == HIGH )
@@ -96,13 +113,11 @@ void loop() {
 
       blinkYellowLight(westYellow);
 
-      digitalWrite(westYellow, LOW);
-      digitalWrite(westRed, LOW); // change lights from red to green
-      digitalWrite(westGreen, HIGH);
-      digitalWrite(westPedGreen, LOW);
-      digitalWrite(westPedRed, HIGH); // change lights from red to green
-      digitalWrite(eastPedGreen, HIGH);
-      digitalWrite(eastPedRed, LOW);
+      greenLightOn (westYellow, eastRed, eastGreen);
+
+      pedLightsRed (westPedGreen, westPedRed);
+
+      pedLightsGreen (eastPedGreen, eastPedRed);
     }
   }
 
@@ -119,13 +134,11 @@ void loop() {
 
       blinkYellowLight(eastYellow);
 
-      digitalWrite(eastYellow, LOW);
-      digitalWrite(eastRed, LOW); // change lights from red to green
-      digitalWrite(eastGreen, HIGH);
-      digitalWrite(westPedGreen, HIGH);
-      digitalWrite(westPedRed, LOW);
-      digitalWrite(eastPedGreen, LOW);
-      digitalWrite(eastPedRed, HIGH);
+      greenLightOn (westYellow, eastRed, eastGreen);
+
+      pedLightsRed (westPedGreen, westPedRed);
+
+      pedLightsGreen (eastPedGreen, eastPedRed);
     }
   }
 }
